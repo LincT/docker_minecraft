@@ -1,0 +1,21 @@
+version: '3'
+
+#define network connection to existing network
+# https://docs.docker.com/compose/networking/
+# 
+networks:
+    dmzLan:
+        external: true
+        
+services:
+    mc-server:
+        volumes:
+            - '$PWD/minecraft_data:/minecraft/data'
+        restart: 'on-failure:3'
+        image: 'minecraft-server:1.18.2'
+        build: .
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t
+        networks:
+            dmzLan:
+                ipv4_address: 192.168.11.25
